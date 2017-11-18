@@ -4,73 +4,10 @@ public class Algorithms
 {
     
 }
-/* Java program for Bitonic Sort. Note that this program
-   works only when size of input is a power of 2. */
-class BitonicSort
+
+class ShellSort
 {
-    /* The parameter dir indicates the sorting direction,
-       ASCENDING or DESCENDING; if (a[i] > a[j]) agrees
-       with the direction, then a[i] and a[j] are
-       interchanged. */
-    void compAndSwap(int a[], int i, int j, int dir)
-    {
-        if ( (a[i] > a[j] && dir == 1) ||
-             (a[i] < a[j] && dir == 0))
-        {
-            // Swapping elements
-            int temp = a[i];
-            a[i] = a[j];
-            a[j] = temp;
-        }
-    }
- 
-    /* It recursively sorts a bitonic sequence in ascending
-       order, if dir = 1, and in descending order otherwise
-       (means dir=0). The sequence to be sorted starts at
-       index position low, the parameter cnt is the number
-       of elements to be sorted.*/
-    void bitonicMerge(int a[], int low, int cnt, int dir)
-    {
-        if (cnt>1)
-        {
-            int k = cnt/2;
-            for (int i=low; i<low+k; i++)
-                compAndSwap(a,i, i+k, dir);
-            bitonicMerge(a,low, k, dir);
-            bitonicMerge(a,low+k, k, dir);
-        }
-    }
- 
-    /* This funcion first produces a bitonic sequence by
-       recursively sorting its two halves in opposite sorting
-       orders, and then  calls bitonicMerge to make them in
-       the same order */
-    void bitonicSort(int a[], int low, int cnt, int dir)
-    {
-        if (cnt>1)
-        {
-            int k = cnt/2;
- 
-            // sort in ascending order since dir here is 1
-            bitonicSort(a, low, k, 1);
- 
-            // sort in descending order since dir here is 0
-            bitonicSort(a,low+k, k, 0);
- 
-            // Will merge wole sequence in ascending order
-            // since dir=1.
-            bitonicMerge(a, low, cnt, dir);
-        }
-    }
- 
-    /*Caller of bitonicSort for sorting the entire array
-      of length N in ASCENDING order */
-    void sort(int a[], int N, int up)
-    {
-        bitonicSort(a, 0, N, up);
-    }
- 
-    /* A utility function to print array of size n */
+    /* An utility function to print array of size n*/
     static void printArray(int arr[])
     {
         int n = arr.length;
@@ -79,18 +16,53 @@ class BitonicSort
         System.out.println();
     }
  
+    /* function to sort arr using shellSort */
+    int sort(int arr[])
+    {
+        int n = arr.length;
+ 
+        // Start with a big gap, then reduce the gap
+        for (int gap = n/2; gap > 0; gap /= 2)
+        {
+            // Do a gapped insertion sort for this gap size.
+            // The first gap elements a[0..gap-1] are already
+            // in gapped order keep adding one more element
+            // until the entire array is gap sorted
+            for (int i = gap; i < n; i += 1)
+            {
+                // add a[i] to the elements that have been gap
+                // sorted save a[i] in temp and make a hole at
+                // position i
+                int temp = arr[i];
+ 
+                // shift earlier gap-sorted elements up until
+                // the correct location for a[i] is found
+                int j;
+                for (j = i; j >= gap && arr[j - gap] > temp; j -= gap)
+                    arr[j] = arr[j - gap];
+ 
+                // put temp (the original a[i]) in its correct
+                // location
+                arr[j] = temp;
+            }
+        }
+        return 0;
+    }
+ 
     // Driver method
     public static void main(String args[])
     {
-        int a[] = {3, 7, 4, 8, 6, 2, 1, 5};
-        int up = 1;
-        BitonicSort ob = new BitonicSort();
-        ob.sort(a, a.length,up);
-        System.out.println("\nSorted array");
-        printArray(a);
+        int arr[] = {12, 34, 54, 2, 3};
+        System.out.println("Array before sorting");
+        printArray(arr);
+ 
+        ShellSort ob = new ShellSort();
+        ob.sort(arr);
+ 
+        System.out.println("Array after sorting");
+        printArray(arr);
     }
-}
-
+} 
 /* Heap sort is a comparison based sorting technique based on Binary Heap 
 data structure. It is similar to selection sort where we first find the maximum 
 element and place the maximum element at the end. 
