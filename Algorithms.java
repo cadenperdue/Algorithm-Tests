@@ -15,6 +15,13 @@ class ShellSort
             System.out.print(arr[i] + " ");
         System.out.println();
     }
+    double getTime(int arr[])
+    {
+        ShellSort ob = new ShellSort();
+        double startTime = System.nanoTime();
+        ob.sort(arr);
+        return (System.nanoTime() - startTime);
+    }
  
     /* function to sort arr using shellSort */
     int sort(int arr[])
@@ -126,6 +133,13 @@ class HeapSort
             System.out.print(arr[i]+" ");
         System.out.println();
     }
+    double getTime(int arr[])
+    {
+        HeapSort ob = new HeapSort();
+        double startTime = System.nanoTime();
+        ob.sort(arr);
+        return (System.nanoTime() - startTime);
+    }
  
     // Driver program
     public static void main(String args[])
@@ -229,7 +243,14 @@ class MergeSort
             System.out.print(arr[i] + " ");
         System.out.println();
     }
- 
+    double getTime(int arr[])
+    {
+        MergeSort ob = new MergeSort();
+        int length = arr.length - 1;
+        double startTime = System.nanoTime();
+        ob.sort(arr, 0, length);
+        return (System.nanoTime() - startTime);
+    }
     // Driver method
     public static void main(String args[])
     {
@@ -249,61 +270,66 @@ class MergeSort
 
 class QuickSort
 {
-
-
- /*Code retrieved from
-  http://www.geeksforgeeks.org/quick-sort/
-  this func take last element as pivot,   
-  places the pivot element at its correct
-  position in sorted array, and places all
-  smaller (smaller than pivot) to left of
-  pivot and all greater elements to right
-  of pivot */
-public int partition(int arr[], int low, int high)
-{
-    int pivot = arr[high]; 
-    int i = (low-1); // index of smaller element
-    for (int j=low; j<high; j++)
+     /*Code retrieved from
+     http://www.geeksforgeeks.org/quick-sort/
+     this func take last element as pivot,   
+     places the pivot element at its correct
+     position in sorted array, and places all
+     smaller (smaller than pivot) to left of
+     pivot and all greater elements to right
+     of pivot */
+    public int partition(int arr[], int low, int high)
     {
+        int pivot = arr[high]; 
+        int i = (low-1); // index of smaller element
+        for (int j=low; j<high; j++)
+        {
             // If current element is smaller than or
             // equal to pivot
-        if (arr[j] <= pivot)
-        {
-            i++;
+            if (arr[j] <= pivot)
+            {
+                i++;
  
-            // swap arr[i] and arr[j]
-            int temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-         }
-     }
+                // swap arr[i] and arr[j]
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
  
-     // swap arr[i+1] and arr[high] (or pivot)
-     int temp = arr[i+1];
-     arr[i+1] = arr[high];
-     arr[high] = temp;
+         // swap arr[i+1] and arr[high] (or pivot)
+         int temp = arr[i+1];
+         arr[i+1] = arr[high];
+         arr[high] = temp;
  
-     return i+1;
- }
+         return i+1;
+    }
  
- 
-/* The main function that implements QuickSort()
-   arr[] --> Array to be sorted,
-   low  --> Starting index,
-   high  --> Ending index */
-void sort(int arr[], int low, int high)
-{
-    if (low < high)
+    /* The main function that implements QuickSort()
+    arr[] --> Array to be sorted,
+    low  --> Starting index,
+    high  --> Ending index */
+    void sort(int arr[], int low, int high)
     {
-        /* pi is partitioning index, arr[pi] is 
-        now at right place */
-        int pi = partition(arr, low, high);
+        if (low < high)
+        {
+            /* pi is partitioning index, arr[pi] is 
+            now at right place */
+            int pi = partition(arr, low, high);
  
-        // Recursively sort elements before
-        // partition and after partition
-        sort(arr, low, pi-1);
-        sort(arr, pi+1, high);
-     }
-}
+            // Recursively sort elements before
+            // partition and after partition
+            sort(arr, low, pi-1);
+            sort(arr, pi+1, high);
+         }
+    }
+    double getTime(int arr[])
+    {
+        MergeSort ob = new MergeSort();
+        int length = arr.length - 1;
+        double startTime = System.nanoTime();
+        ob.sort(arr, 0, length);
+        return (System.nanoTime() - startTime);
+    }
 }
 
